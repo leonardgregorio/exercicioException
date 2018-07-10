@@ -4,6 +4,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
+import model.exceptions.DomainException;
+
 public class Reservation {
 
 	private Integer roomNumber;
@@ -16,7 +18,7 @@ public class Reservation {
 
 	}
 
-	public Reservation(Integer roomNumber, Date checkIn, Date checkOut) {
+	public Reservation(Integer roomNumber, Date checkIn, Date checkOut) throws DomainException{
 		super();
 		this.roomNumber = roomNumber;
 		this.checkIn = checkIn;
@@ -44,14 +46,14 @@ public class Reservation {
 		return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
 	}
 
-	public void updateDates(Date checkIn, Date checkOut) {
+	public void updateDates(Date checkIn, Date checkOut) throws DomainException {
 
 		Date now = new Date();
 		if (checkIn.before(now) || checkOut.before(now)) {
-			throw new IllegalArgumentException("Erro, data anterior a hoje");
+			throw new DomainException("Erro, data anterior a hoje");
 		}
 		if (!checkOut.after(checkIn)) {
-			throw new IllegalArgumentException( "Error in reservation. out antes do in");
+			throw new DomainException( "Error in reservation. out antes do in");
 		}
 		this.checkIn = checkIn;
 		this.checkOut = checkOut;
