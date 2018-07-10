@@ -44,20 +44,18 @@ public class Reservation {
 		return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
 	}
 
-	public String updateDates(Date checkIn, Date checkOut) {
+	public void updateDates(Date checkIn, Date checkOut) {
 
 		Date now = new Date();
 		if (checkIn.before(now) || checkOut.before(now)) {
-			return "Erro, data anterior a hoje";
+			throw new IllegalArgumentException("Erro, data anterior a hoje");
 		}
 		if (!checkOut.after(checkIn)) {
-			return "Error in reservation. out antes do in";
+			throw new IllegalArgumentException( "Error in reservation. out antes do in");
 		}
-
 		this.checkIn = checkIn;
 		this.checkOut = checkOut;
-		return null;
-		
+			
 	}
 
 	@Override
